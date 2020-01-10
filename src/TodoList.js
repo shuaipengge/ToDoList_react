@@ -5,22 +5,28 @@ class TodoList extends Component {
     super(props);
     this.state = {
       inputValue: "",
-      list: []
+      list: ["学习Vue", "学习React"]
     };
   }
   render() {
     return (
       <Fragment>
+        {/* 下面是组件内容 */}
         <div>
           <input
             value={this.state.inputValue}
             onChange={this.handleInputChange.bind(this)}
           />
-          <button>提交</button>
+          <button onClick={this.handleBtnClick.bind(this)}>提交</button>
         </div>
         <ul>
-          <li>学react</li>
-          <li>学vue</li>
+          {this.state.list.map((item, index) => {
+            return (
+              <li key={index} onClick={this.handleItemDelete.bind(this, index)}>
+                {item}
+              </li>
+            );
+          })}
         </ul>
       </Fragment>
     );
@@ -29,7 +35,25 @@ class TodoList extends Component {
     this.setState({
       inputValue: e.target.value
     });
-    console.log(e.target.value);
+    // console.log(e.target.value);
+  }
+
+  handleBtnClick() {
+    this.setState({
+      list: [...this.state.list, this.state.inputValue],
+      inputValue: ""
+    });
+  }
+
+  handleItemDelete(index) {
+    // immutable
+    // state 不允许我们做任何改变
+    const list = [...this.state.list];
+    list.splice(index, 1);
+    this.setState({
+      list: list
+    });
+    console.log(index);
   }
 }
 
