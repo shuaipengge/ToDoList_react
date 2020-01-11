@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from "react";
+import "./style.css";
+
 // Fragment 占位符 隐藏最外层标签
 class TodoList extends Component {
   constructor(props) {
@@ -13,7 +15,10 @@ class TodoList extends Component {
       <Fragment>
         {/* 下面是组件内容 */}
         <div>
+          <label htmlFor="insertArea">输入内容</label>
           <input
+            id="insertArea"
+            className="input"
             value={this.state.inputValue}
             onChange={this.handleInputChange.bind(this)}
           />
@@ -22,8 +27,12 @@ class TodoList extends Component {
         <ul>
           {this.state.list.map((item, index) => {
             return (
-              <li key={index} onClick={this.handleItemDelete.bind(this, index)}>
-                {item}
+              <li
+                key={index}
+                onClick={this.handleItemDelete.bind(this, index)}
+                dangerouslySetInnerHTML={{ __html: item }}
+              >
+                {/* {item} */}
               </li>
             );
           })}
