@@ -9,8 +9,8 @@ class TodoItem extends Component {
   }
 
   render() {
-    const { content, test } = this.props;
-  return <div onClick={this.handleClick}>{test} - {content}</div>;
+    const { content} = this.props;
+  return <div onClick={this.handleClick}>{content}</div>;
   }
   handleClick() {
     const { deleteItem, index } = this.props;
@@ -19,8 +19,7 @@ class TodoItem extends Component {
 }
 
 TodoItem.propTypes = {
-  test: PropTypes.string.isRequired,
-  content: PropTypes.string,
+  content: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   deleteItem: PropTypes.func,
   index: PropTypes.number
 };

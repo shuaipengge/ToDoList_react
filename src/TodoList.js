@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from "react";
 import TodoItem from "./TodoItem";
+import axios from "axios";
 import "./style.css";
 
 // Fragment 占位符 隐藏最外层标签
 class TodoList extends Component {
   constructor(props) {
     super(props);
+    // 当组件的state 或者props发生改变的时候 render函数就会重新执行
     this.state = {
       inputValue: "",
       list: ["学习Vue", "学习React"]
@@ -15,6 +17,7 @@ class TodoList extends Component {
     this.handleItemDelete = this.handleItemDelete.bind(this);
   }
   render() {
+    console.log("render");
     return (
       <Fragment>
         {/* 下面是组件内容 */}
@@ -25,12 +28,21 @@ class TodoList extends Component {
             className="input"
             value={this.state.inputValue}
             onChange={this.handleInputChange}
+            ref={input => {
+              this.input = input;
+            }}
           />
           <button onClick={this.handleBtnClick}>提交</button>
         </div>
         <ul>{this.getTodoItem()}</ul>
       </Fragment>
     );
+  }
+
+  componentDidMount() {
+    axios.get('/api/todolist')
+    .then(()=>{alert('succ')})
+    .catch(()=>{alert('error')})
   }
 
   getTodoItem() {
@@ -48,8 +60,8 @@ class TodoList extends Component {
     });
   }
 
-  handleInputChange(e) {
-    const value = e.target.value;
+  handleInputChange() {
+    const value = this.input.value;
     this.setState(() => ({
       inputValue: value
     }));
