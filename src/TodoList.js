@@ -31,7 +31,18 @@ class TodoList extends Component {
           style={{ marginTop: "10px", width: "300px" }}
           bordered
           dataSource={this.state.list}
-          renderItem={item => <List.Item>{item}</List.Item>}
+          renderItem={(item, index) => (
+            <List.Item>
+              {item}
+              <Button
+                onClick={this.handleItemDelete.bind(this, index)}
+                type="danger"
+                shape="circle"
+                icon="delete"
+                style={{ marginLeft: "10px" }}
+              />
+            </List.Item>
+          )}
         />
       </div>
     );
@@ -54,6 +65,14 @@ class TodoList extends Component {
 
   handleStoreChange() {
     this.setState(store.getState());
+  }
+
+  handleItemDelete(index) {
+    const action = {
+      type: "delete_todo_item",
+      index
+    };
+    store.dispatch(action);
   }
 }
 
