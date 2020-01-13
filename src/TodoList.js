@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 
 import store from "./store";
-import { getInputChangeAction, getAddItemAction, getDeleteItemAction, initListAction } from './store/actionCreators'
-import TodoListUI from './TodoListUI'
-import axios from 'axios'
-
+import {
+  getInputChangeAction,
+  getAddItemAction,
+  getDeleteItemAction,
+  getTodoList
+} from "./store/actionCreators";
+import TodoListUI from "./TodoListUI";
 
 class TodoList extends Component {
   constructor(props) {
@@ -13,7 +16,7 @@ class TodoList extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleStoreChange = this.handleStoreChange.bind(this);
     this.handleBtnClick = this.handleBtnClick.bind(this);
-    this.handleItemDelete = this.handleItemDelete.bind(this)
+    this.handleItemDelete = this.handleItemDelete.bind(this);
     store.subscribe(this.handleStoreChange);
   }
 
@@ -26,25 +29,21 @@ class TodoList extends Component {
         handleBtnClick={this.handleBtnClick}
         handleItemDelete={this.handleItemDelete}
       />
-    )
+    );
   }
 
   componentDidMount() {
-    axios.get('api/todolist.json').then((res) => {
-      const data = res.data
-      const action = initListAction(data)
-      store.dispatch(action)
-      console.log(action);
-    })
+    const action = getTodoList();
+    store.dispatch(action);
   }
 
   handleInputChange(e) {
-    const action = getInputChangeAction(e.target.value)
+    const action = getInputChangeAction(e.target.value);
     store.dispatch(action);
   }
 
   handleBtnClick() {
-    const action = getAddItemAction()
+    const action = getAddItemAction();
     store.dispatch(action);
   }
 
@@ -53,7 +52,7 @@ class TodoList extends Component {
   }
 
   handleItemDelete(index) {
-    const action = getDeleteItemAction(index)
+    const action = getDeleteItemAction(index);
     store.dispatch(action);
   }
 }
