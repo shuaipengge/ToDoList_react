@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-
 import store from "./store";
 import {
   getInputChangeAction,
   getAddItemAction,
   getDeleteItemAction,
-  getTodoList
+  getInitList
 } from "./store/actionCreators";
 import TodoListUI from "./TodoListUI";
 
@@ -33,7 +32,7 @@ class TodoList extends Component {
   }
 
   componentDidMount() {
-    const action = getTodoList();
+    const action = getInitList();
     store.dispatch(action);
   }
 
